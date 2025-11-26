@@ -1,0 +1,27 @@
+alfa <- function(x, a) {
+  ## x contains the compositional data
+  ## a is the power parameter, usually between -1 and 1
+  ## if h is TRUE the multiplication with the Helmert matrix takes place
+  x <- as.matrix(x)
+  D <- dim(x)[2] ## number of components
+  if ( D == 1 )   x <- t(x)
+  D <- dim(x)[2] ## number of components
+  if ( abs(a) > 1e-9 ) {
+    z <- x^a
+    ta <- Rfast::rowsums(z)
+    z <- D / a * z / ta - 1/a
+  } else {  ## if a = 0 the ilr is calculated
+    xa <- Rfast::Log(x)
+    z <- xa - Rfast::rowmeans( xa )   ## this is the clr
+  }
+  tcrossprod(z, .helm( D ) ) ## multiply by the Helmert sub-matrix
+}
+
+
+.helm <- function(n) {
+  mat <- matrix(0, n - 1, n)
+  i <- 2:n
+  r <- 1 / sqrt( i * (i - 1) )
+  for ( j in 1:(n - 1 ) )   mat[j, 1: c(j + 1) ] <- c( rep(r[j], j), - j * r[j]  )
+  mat
+}

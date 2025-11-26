@@ -1,0 +1,26 @@
+alfa.kmeans <- function(x, ncl = 10, trim = 0, a = seq(-1, 1, by = 0.1), max.iters = 50, nstart = 10) {
+
+  if ( min(x) == 0 )  a <- a[a > 0]
+  la <- length(a)
+  names <- paste("alpha=", a, sep = "")
+  res <- sapply(names, function(x) NULL)
+
+  for ( i in 1:la ) {
+    y <- Compositional::alfa(x, a[i])$aff
+    y <- Rfast::standardise(y)
+    if ( trim == 0 ) {
+      mod <- kmeans(y, i, iter.max = max.iters, nstart = nstart )
+    } else {
+      m <- lowmemtkmeans::tkmeans(y, i, alpha = trim, iter = max.iters, nstart = nstart )
+      cluster <- as.vector( lowmemtkmeans::nearest_cluster(y, m) )
+      mod <- list()
+      mod$centers <- m
+      mod$cluster <- cluster
+    }
+    res[[ i ]] <- mod
+  }
+
+  res
+}
+
+
