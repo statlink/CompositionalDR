@@ -70,22 +70,16 @@ dca <- function(x, k, maxiter = 1000, pop_size = 50) {
 
 # Function to estimate Dirichlet precision parameter (alpha_0) using method of moments
 .dir_alpha0 <- function(X) {
-  # X is a matrix where each row is a compositional vector on the simplex
-  # For symmetric Dirichlet: Dir(x | alpha_0)
   M <- dim(X)[1]   ;   N <- dim(X)[2]
-  # Avoid log(0) by adding small constant
   X <- pmax(X, 1e-10)
-  # Method of moments estimator
   # E[log(x_i)] = digamma(alpha_0) - digamma(N * alpha_0)
   mlx <- mean( Rfast::Log(X) )
-  # Solve for alpha_0 using Newton-Raphson
   alpha0 <- 1.0  # Initial guess
   for ( iter in 1:1000 ) {
     g <- digamma(alpha0) - digamma(N * alpha0) - mlx
     h <- trigamma(alpha0) - N * trigamma(N * alpha0)
-    if ( abs(g) < 1e-6 ) break
+    if ( abs(g) < 1e-6 )  break
     alpha0_new <- alpha0 - g / h
-    # Ensure alpha0 stays positive
     if ( alpha0_new <= 0 ) {
       alpha0 <- alpha0 / 2
     } else  alpha0 <- alpha0_new
