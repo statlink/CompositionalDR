@@ -19,7 +19,7 @@ dca <- function(x, k, maxiter = 1000, pop_size = 50) {
       # Apply regularization
       xreg <- .regularize_data(xtrans)
       # Estimate Dirichlet correlation
-      alphas[i] <- .dir_alpha0(xreg)
+      alphas[i] <- .diri_a0(xreg)
     }
 
     # Track best solution
@@ -68,25 +68,28 @@ dca <- function(x, k, maxiter = 1000, pop_size = 50) {
 
 
 
-# Function to estimate Dirichlet precision parameter (alpha_0) using method of moments
-.dir_alpha0 <- function(X) {
-  M <- dim(X)[1]   ;   N <- dim(X)[2]
-  X <- pmax(X, 1e-10)
-  # E[log(x_i)] = digamma(alpha_0) - digamma(N * alpha_0)
-  mlx <- mean( Rfast::Log(X) )
-  alpha0 <- 1.0  # Initial guess
-  for ( iter in 1:1000 ) {
-    g <- digamma(alpha0) - digamma(N * alpha0) - mlx
-    h <- trigamma(alpha0) - N * trigamma(N * alpha0)
-    if ( abs(g) < 1e-6 )  break
-    alpha0_new <- alpha0 - g / h
-    if ( alpha0_new <= 0 ) {
-      alpha0 <- alpha0 / 2
-    } else  alpha0 <- alpha0_new
+# Function to estimate Dirichlet precision parameter (alpha_0) using Newton-Raphson
+.diri_a0 <- function(x, tol = 1e-6) {
+  n <- dim(x)[1]   ;   D <- dim(x)[2]
+  a <- 0   ;   ea <- 1
+  slx <- sum( Rfast::Log(x) )
+  lik1 <- n * ( lgamma(D * ea) - D * lgamma(ea) ) + (ea - 1) * slx
+  grad <- n * D * ea * ( digamma(D * ea) - digamma(ea) ) + ea * slx
+  hess <- n * trigamma(D * ea) * (D * ea)^2 - n * D * trigamma(ea) * ea^2 + grad
+  a <- a - grad/hess
+  ea <- exp(a)
+  lik2 <- n * ( lgamma(D * ea) - D * lgamma(ea) ) + (ea - 1) * slx
+  
+  while ( lik2 - lik1 > tol ) {
+    lik1 <- lik2
+    grad <- n * D * ea * ( digamma(D * ea) - digamma(ea) ) + ea * slx
+    hess <- n * trigamma(D * ea) * (D * ea)^2 - n * D * trigamma(ea) * ea^2 + grad
+    a <- a - grad/hess
+    ea <- exp(a)
+    lik2 <- n * ( lgamma(D * ea) - D * lgamma(ea) ) + (ea - 1) * slx
   }
-
-  max(alpha0, 0.001)  # Return positive value
-}
+  ea
+}  
 
 # Function to apply regularization operator
 .regularize_data <- function(X) {
