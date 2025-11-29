@@ -13,8 +13,8 @@ Dimensionality Reduction with Compositional Data. Currently, Dirichlet component
 \tabular{ll}{
 Package: \tab CompositionalDR\cr
 Type: \tab Package\cr
-Version: \tab 1.0 \cr
-Date: \tab 2025-11-27\cr
+Version: \tab 1.1 \cr
+Date: \tab 2025-11-29\cr
 License: \tab GPL-2\cr
 }
 }
