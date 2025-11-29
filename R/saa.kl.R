@@ -4,7 +4,7 @@ saa.kl <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-7, cli
   W <- matrix( Rfast2::Runif(n * k), n, k)
   W <- W / Rfast::rowsums(W)
   H <- matrix( Rfast2::Runif(k * D), k, D)
-  H <- H / Rfast::rowsums(H)
+  H <- H / rep(Rfast::colsums(H), each = k)  # columns sum to 1
 
   prev_obj <- Inf
   mat <- matrix(1, n, D)
@@ -23,7 +23,7 @@ saa.kl <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-7, cli
     expo_h <- -lr_h * grad_h
     expo_h <- pmax(pmin(expo_h, clip_exp), -clip_exp)
     H <- H * exp(expo_h)
-    H <- H / Rfast::rowsums(H)
+    H <- H / rep(Rfast::colsums(H), each = k)  # columns sum to 1
     # ---- Compute KL divergence ----
     Z <- W %*% H
     obj <- sum( x * log(x / Z) - x + Z, na.rm = TRUE )
