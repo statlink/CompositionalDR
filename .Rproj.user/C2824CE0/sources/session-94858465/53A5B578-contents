@@ -64,7 +64,7 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 %}
 
 \seealso{
-\code{\link{saa}, \link{saa.kl}, \link{ternary}
+\code{\link{saa.eg}, \link{saakl.eg}, \link{ternary}
 }
 }
 
