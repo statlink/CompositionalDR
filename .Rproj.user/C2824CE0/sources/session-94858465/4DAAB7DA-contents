@@ -35,5 +35,5 @@ saa.kl <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-7, cli
     prev_obj <- obj
   }
 
-  list(W = W, H = H, Z = Z, KL = obj, iters = iter)
+  list(W = W, H = H, Z = Z, obj = obj, iters = iter)
 }

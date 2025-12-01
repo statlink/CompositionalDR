@@ -1,4 +1,4 @@
-saa <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 10000, tol = 1e-5) {
+saa.eg <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 10000, tol = 1e-5) {
   # x: n x D compositional data (rows sum to 1)
   # k: number of archetypes
   # lr_w, lr_h: EG learning rates for W and H
@@ -26,8 +26,7 @@ saa <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 10000, tol = 1e-5) {
     H <- H * exp(- lr_h * grad_h)
     H <- Rfast::eachrow(H, Rfast::colsums(H), oper = "/") # columns sum to 1
     Z <- W %*% H
-    recon_err <- sum( (x - Z)^2 )
-    obj <- recon_err
+    obj <- sum( (x - Z)^2 )
 
     # convergence check
     if ( abs(prev_obj - obj) < tol ) {
@@ -37,7 +36,7 @@ saa <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 10000, tol = 1e-5) {
     prev_obj <- obj
   }
 
-  list(W = W, H = H, Z = Z, recon_err = recon_err, iters = iter)
+  list(W = W, H = H, Z = Z, obj = obj, iters = iter)
 }
 
 

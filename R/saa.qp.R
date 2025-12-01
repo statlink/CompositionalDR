@@ -1,0 +1,52 @@
+saa.qp <- function(x, k, maxiter = 1000, tol = 1e-6, ridge = 1e-8) {
+
+  n <- dim(x)[1]  ;  D <- dim(x)[2]
+  # initialize W and H randomly and normalize
+  W <- matrix( Rfast2::Runif(n * k), nrow = n, ncol = k)
+  W <- W / Rfast::rowsums(W)
+  H <- matrix( Rfast2::Runif(k * D), nrow = k, ncol = D)
+  H <- Rfast::eachrow(H, Rfast::colsums(H), oper = "/") # columns sum to 1
+
+  prev.obj <- NULL
+  Aeq   <- rep(1, k)
+  Aineq <- diag(k)
+  Amat  <- cbind(Aeq, Aineq)
+  bvec  <- c(1, rep(0, k))
+  meq   <- 1
+  ridgeA <- ridge * Aineq
+
+  for ( it in 1:maxiter ) {
+
+    AtA <- crossprod(W)  ;   AtA <- matrix(AtA, k, k)
+    DmatH <- 2 * AtA + ridgeA
+    for ( j in 1:D ) {
+      g <-  -2 * drop( crossprod(W, x[, j]) )
+      sol <- try( solve.QP(Dmat = DmatH, dvec = -g, Amat = Amat, bvec = bvec, meq = meq)$solution,
+             silent = TRUE )
+      if ( inherits(sol, "try-error") || any(!is.finite(sol)))  sol <- rep(1/k, k)  # fallback to barycenter
+      H[, j] <- sol
+    }
+    HHt <- tcrossprod(H) ;  HHt <- matrix(HHt, k, k)
+    DmatW <- 2 * HHt + ridgeA
+    for ( i in 1:n ) {
+      g <-  -2 * drop(H %*% x[i, ])
+      sol <- try( solve.QP(Dmat = DmatW, dvec = -g, Amat = Amat, bvec = bvec, meq = meq)$solution,
+                  silent = TRUE )
+      if ( inherits(sol, "try-error") || any(!is.finite(sol)) )  sol <- rep(1/k, k)
+      W[i, ] <- sol
+    }
+    obj <- sum( (x - W %*% H)^2 )
+    if ( is.null(prev.obj) ) {
+      relchg <- Inf     # FIX: not NaN
+    } else {
+      relchg <- abs(prev.obj - obj) / (1 + prev.obj)
+      if ( !is.finite(relchg) ) relchg <- Inf
+    }
+
+    if ( relchg < tol ) break
+    prev.obj <- obj
+  }
+
+  list(W = W, H = H, obj = obj, iters = it)
+}
+

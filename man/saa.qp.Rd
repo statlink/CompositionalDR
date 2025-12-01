@@ -1,15 +1,15 @@
-\name{saa.kl}
-\alias{saa.kl}
+\name{saa.qp}
+\alias{saa.qp}
 \title{
-Simplicial archetypal analysis minimizing the Kullback-Leibler divergence
+Simplicial archetypal analysis minimizing the Frobenius norm
 }
 
 \description{
-Simplicial archetypal analysis minimizing the Kullback-Leibler divergence.
+Simplicial archetypal analysis minimizing the Frobenius norm using quadratic programming.
 }
 
 \usage{
-saa.kl(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-7, clip_exp = 50)
+saa.qp(x, k, maxiter = 1000, tol = 1e-6, ridge = 1e-8)
 }
 
 \arguments{
@@ -19,26 +19,19 @@ An \eqn{n \ times D} matrix with compositional data. Zero values are allowed.
 \item{k}{
 The number of lower dimensions. It must be less than the dimensionality of the data, at most \eqn{D-1}.
 }
-\item{lr_w}{
-The learning rate to multiply the gradient for the \eqn{W} matrix.
-}
-\item{lr_h}{
-The learning rate to multiply the gradient for the \eqn{H} matrix.
-}
 \item{maxiter}{
 The maximum number of iterations allowed.
 }
 \item{tol}{
 The tolerance value to terminate the exponentiated gradient descent algorithm.
 }
-\item{clip_exp}{
-A value to clip the gradient in case it becomes too large.
+\item{ridge}{
+A small quantity added in the diagonal of the \eqn{D} matrix.
 }
 }
 
 \details{
-Simplicial archetypal analysis is performed. The typical archetypal analysis with simplicial constraints on the
-matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the Kullback-Leibler divergence, \eqn{KL(x||WH)}.
+Simplicial archetypal analysis using quadratic programming is performed. The typical archetypal analysis with simplicial constraints on the matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the square of the Frobenius norm.
 }
 
 \value{
@@ -51,8 +44,8 @@ The \eqn{H} matrix, an \eqn{k \times D} matrix.
 \item{Z}{
 The reconstructed data, \eqn{Z = WH}.
 }
-\item{KL}{
-The Kullback-Leibler divergence \eqn{ KL(x||WH) }.
+\item{obj}{
+The reconstruction error, \eqn{ ||x - Z||_F^2}.
 }
 \item{iters}{
 The number of iterations performed.
@@ -74,14 +67,14 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 %}
 
 \seealso{
-\code{ \link{saa}, \link{dca}, link{ternary}
+\code{\link{dca}, link{ternary}
 }
 }
 
 \examples{
 x <- as.matrix(iris[, 1:4])
 x <- x / rowSums(x)
-mod <- saa.kl(x, 3)
+mod <- saa.qp(x, 3)
 group <- as.numeric(iris[, 5])
 ternary(mod$W, colour = group)
 }

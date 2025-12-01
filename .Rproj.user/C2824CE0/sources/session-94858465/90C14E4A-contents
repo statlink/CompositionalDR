@@ -51,7 +51,7 @@ The \eqn{H} matrix, an \eqn{k \times D} matrix.
 \item{Z}{
 The reconstructed data, \eqn{Z = WH}.
 }
-\item{KL}{
+\item{obj}{
 The Kullback-Leibler divergence \eqn{ KL(x||WH) }.
 }
 \item{iters}{
