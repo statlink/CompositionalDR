@@ -6,7 +6,6 @@ saa.pgd <- function(x, k, maxiter = 1000, tol = 1e-6, ridge = 1e-12) {
   H <- matrix( Rfast2::Runif(k * D), nrow = k, ncol = D)
   H <- H / Rfast::rowsums(H)  ## FIX: rows sum to 1, not columns
   prev_obj <- Inf
-
   for ( it in 1:maxiter ) {
     # ---- H update (PGD on H, project rows)  ## FIX: comment changed
     # gradient: G_H = 2 * (W^T W H - W^T x)
@@ -37,7 +36,6 @@ saa.pgd <- function(x, k, maxiter = 1000, tol = 1e-6, ridge = 1e-12) {
     if (relchg < tol) break
     prev_obj <- obj
   }
-
   list(W = W, H = H, obj = obj, iters = it)
 }
 

@@ -23,14 +23,18 @@ saa.md <- function(x, k, maxiter = 1000, tol = 1e-6, alpha_factor = 1.0) {
     G_H <- 2 * (WtW %*% H - Wtx)   # k x D
     # stable exponentiation per row  ## FIX: comment changed
     E <-  -alpha_h * G_H
+    #E <- sweep(E, 1, apply(E, 1, max), FUN = "-")  ## FIX: subtract row max, not column max
     E <- E - Rfast::rowMaxs(E, TRUE)
     H <- H * exp(E)
+    #H <- sweep(H, 1, rowSums(H), FUN = "/")  ## FIX: normalize rows, not columns
     H <- H / Rfast::rowsums(H)
     # ---- W multiplicative update (rows)
     G_W <- 2 * (W %*% HHt - xHt)   # n x k
     E <-  -alpha_w * G_W
+    E <- sweep(E, 1, apply(E, 1, max), FUN = "-")  # subtract row max
     E <- E - Rfast::rowMaxs(E, TRUE)
     W <- W * exp(E)
+    #W <- sweep(W, 1, rowSums(W), FUN = "/")        # normalize rows
     W <- W / Rfast::rowsums(W)
     # ---- objective & stopping
     obj <- sum( (x - W %*% H)^2 )

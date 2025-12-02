@@ -6,7 +6,6 @@ saa.md <- function(x, k, maxiter = 1000, tol = 1e-6, alpha_factor = 1.0) {
   H <- matrix( Rfast2::Runif(k * D), nrow = k, ncol = D)
   H <- H / Rfast::rowsums(H)  ## FIX: rows sum to 1, not columns
   prev_obj <- Inf
-
   for ( it in 1:maxiter ) {
     # Precompute
     WtW <- crossprod(W)
@@ -23,21 +22,20 @@ saa.md <- function(x, k, maxiter = 1000, tol = 1e-6, alpha_factor = 1.0) {
     G_H <- 2 * (WtW %*% H - Wtx)   # k x D
     # stable exponentiation per row  ## FIX: comment changed
     E <-  -alpha_h * G_H
-    E <- E - Rfast::rowMaxs(E, TRUE)
+    E <- sweep(E, 1, apply(E, 1, max), FUN = "-")  ## FIX: subtract row max, not column max
     H <- H * exp(E)
-    H <- H / Rfast::rowsums(H)
+    H <- sweep(H, 1, rowSums(H), FUN = "/")  ## FIX: normalize rows, not columns
     # ---- W multiplicative update (rows)
     G_W <- 2 * (W %*% HHt - xHt)   # n x k
     E <-  -alpha_w * G_W
-    E <- E - Rfast::rowMaxs(E, TRUE)
+    E <- sweep(E, 1, apply(E, 1, max), FUN = "-")  # subtract row max
     W <- W * exp(E)
-    W <- W / Rfast::rowsums(W)
+    W <- sweep(W, 1, rowSums(W), FUN = "/")        # normalize rows
     # ---- objective & stopping
     obj <- sum( (x - W %*% H)^2 )
     if ( it == 1 ) relchg <- Inf  else  relchg <- abs(prev_obj - obj) / (1 + prev_obj)
     if ( relchg < tol ) break
     prev_obj <- obj
   }
-
   list(W = W, H = H, obj = obj, iters = it)
 }

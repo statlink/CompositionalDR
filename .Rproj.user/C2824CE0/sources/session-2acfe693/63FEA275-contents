@@ -46,7 +46,7 @@ matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the Kull
 The \eqn{W} matrix, an \eqn{n \times k} matrix with the mapped compositional data.
 }
 \item{H}{
-The \eqn{H} matrix, an \eqn{k \times D} matrix. Each row of this matrix is a compositional vector.
+The \eqn{H} matrix, an \eqn{k \times D} matrix.
 }
 \item{Z}{
 The reconstructed data, \eqn{Z = WH}.

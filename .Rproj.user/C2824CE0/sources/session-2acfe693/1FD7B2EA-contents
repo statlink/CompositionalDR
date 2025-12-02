@@ -53,6 +53,5 @@ saa.qp <- function(x, k, maxiter = 1000, tol = 1e-6, ridge = 1e-8) {
     if ( relchg < tol ) break
     prev.obj <- obj
   }
-
   list(W = W, H = H, obj = obj, iters = it)
 }
