@@ -30,7 +30,6 @@ dca <- function(x, k, maxiter = 1000, pop_size = 50) {
     }
     # Check convergence
     if ( iter > 10 && sd(alphas) < 1e-6 ) {
-      cat("Converged at iteration", iter, "\n")
       break
     }
 
@@ -79,7 +78,7 @@ dca <- function(x, k, maxiter = 1000, pop_size = 50) {
   a <- a - grad/hess
   ea <- exp(a)
   lik2 <- n * ( lgamma(D * ea) - D * lgamma(ea) ) + (ea - 1) * slx
-  
+
   while ( lik2 - lik1 > tol ) {
     lik1 <- lik2
     grad <- n * D * ea * ( digamma(D * ea) - digamma(ea) ) + ea * slx
@@ -89,7 +88,7 @@ dca <- function(x, k, maxiter = 1000, pop_size = 50) {
     lik2 <- n * ( lgamma(D * ea) - D * lgamma(ea) ) + (ea - 1) * slx
   }
   ea
-}  
+}
 
 # Function to apply regularization operator
 .regularize_data <- function(X) {
