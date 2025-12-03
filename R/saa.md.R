@@ -34,7 +34,7 @@ saa.md <- function(x, k, maxiter = 1000, tol = 1e-6, alpha_factor = 1.0) {
     W <- W / Rfast::rowsums(W)
     # ---- objective & stopping
     obj <- sum( (x - W %*% H)^2 )
-    if ( it == 1 ) relchg <- Inf  else  relchg <- abs(prev_obj - obj) / (1 + prev_obj)
+    if ( it == 1 ) relchg <- Inf  else  relchg <- abs(prev_obj - obj)
     if ( relchg < tol ) break
     prev_obj <- obj
   }

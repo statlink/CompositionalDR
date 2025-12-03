@@ -1,4 +1,4 @@
-saa.eg <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 10000, tol = 1e-5) {
+saa.eg <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 10000, tol = 1e-6) {
   # x: n x D compositional data (rows sum to 1)
   # k: number of archetypes
   # lr_w, lr_h: EG learning rates for W and H

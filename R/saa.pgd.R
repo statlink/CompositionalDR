@@ -33,8 +33,8 @@ saa.pgd <- function(x, k, maxiter = 1000, tol = 1e-6, ridge = 1e-12) {
     W <- t( .proj_simplex_columns( t(W) ) )
     # ---- objective & stopping
     obj <- sum( (x - W %*% H)^2 )
-    if ( it == 1 ) relchg <- Inf  else  relchg <- abs(prev_obj - obj) / (1 + prev_obj)
-    if (relchg < tol) break
+    if ( it == 1 ) relchg <- Inf  else  relchg <- abs(prev_obj - obj)
+    if ( relchg < tol ) break
     prev_obj <- obj
   }
 

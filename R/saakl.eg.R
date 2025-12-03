@@ -1,4 +1,4 @@
-saakl.eg <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-7, clip_exp = 50) {
+saakl.eg <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-6, clip_exp = 50) {
   n <- dim(x)[1]  ;  D <- dim(x)[2]
   # Initialize W, H randomly on simplex
   W <- matrix( Rfast2::Runif(n * k), n, k)
@@ -12,8 +12,8 @@ saakl.eg <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-7, c
     Z <- W %*% H              # model
     R <- x / Z                # elementwise
     # ---- Gradient for KL divergence ----
-    grad_w <- tcrossprod(mat - R, H)
-    grad_h <- crossprod(W, mat - R)
+    grad_w <- tcrossprod(- R, H)
+    grad_h <- crossprod(W, - R)
     # ---- Exponentiated-gradient updates ----
     expo_w <- -lr_w * grad_w
     expo_w <- pmax( pmin(expo_w, clip_exp), -clip_exp )
@@ -25,7 +25,7 @@ saakl.eg <- function(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-7, c
     H <- H / Rfast::rowsums(H)  ## FIX: rows sum to 1, not columns
     # ---- Compute KL divergence ----
     Z <- W %*% H
-    obj <- sum( x * log(x / Z) - x + Z, na.rm = TRUE )
+    obj <- sum( x * log(x / Z), na.rm = TRUE )
     if ( abs(prev_obj - obj ) < tol) {
       break
     }
