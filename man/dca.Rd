@@ -33,6 +33,9 @@ The Dirichlet component analysis of Wang et al. (2008) is performed.
 
 \value{
 A list inclusing:
+\item{W}{
+An \eqn{n \times k} matrix with the mapped compositional data onto the \eqn{k}-dimensional simplex.
+}
 \item{R}{
 A \eqn{D \times k} matrix which is used to right multiply the compositional data and map them to the
 \eqn{k}-dimensional simplex.
@@ -42,9 +45,6 @@ The estimate of the common parameter \eqn{\alpha} of the Dirichlet distribution.
 }
 \item{iters}{
 The number of iterations performed.
-}
-\item{Z}{
-An \eqn{n \times k} matrix with the mapped compositional data onto the \eqn{k}-dimensional simplex.
 }
 }
 
@@ -56,7 +56,6 @@ Wang H. Y., Yang Q., Qin H. and Zha H. (2008, July). Dirichlet component analysi
 Michail Tsagris.
 
 R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
-.
 }
 
 %\note{
@@ -73,6 +72,6 @@ x <- as.matrix(iris[, 1:4])
 x <- x / rowSums(x)
 mod <- dca(x, 3)
 group <- as.numeric(iris[, 5])
-ternary(mod$Z, colour = group)
+ternary(mod$W, colour = group)
 }
 

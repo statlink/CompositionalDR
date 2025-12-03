@@ -60,9 +60,9 @@ dca <- function(x, k, maxiter = 1000, pop_size = 50) {
 
   # Return results
   R <- t( best_R )
-  Z <- x %*% R
-  Z <- .regularize_data(Z)
-  list( R = R, alpha = best_alpha, iters = iter, Z = Z )
+  W <- x %*% R
+  W <- .regularize_data(W)
+  list(W = W, R = R, alpha = best_alpha, iters = iter )
 }
 
 
