@@ -9,8 +9,7 @@ Simplicial archetypal analysis minimizing the Kullback-Leibler divergence.
 }
 
 \usage{
-saakl.eg(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 1000,
-tol = 1e-6, clip_exp = 50)
+saakl.eg(x, k, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-6, clip_exp = 50)
 }
 
 \arguments{
@@ -19,12 +18,6 @@ An \eqn{n \ times D} matrix with compositional data. Zero values are allowed.
 }
 \item{k}{
 The number of lower dimensions. It must be less than the dimensionality of the data, at most \eqn{D-1}.
-}
-\item{W}{
-If you have an initial estimate for W supply it here. Alternatively, if you specify "dca", the outcome from DCA will be used here. Otherwise leave it NULL.
-}
-\item{H}{
-If you have an initial estimate for H supply it here, otherwise leave it NULL.
 }
 \item{lr_w}{
 The learning rate to multiply the gradient for the \eqn{W} matrix.
@@ -63,9 +56,6 @@ The Kullback-Leibler divergence \eqn{ KL(x||WH) }.
 }
 \item{iters}{
 The number of iterations performed.
-}
-\item{runtime}{
-The runtime required by the algorithm.
 }
 }
 
