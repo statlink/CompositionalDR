@@ -14,7 +14,7 @@ saa.qp(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge = 1e-8)
 
 \arguments{
 \item{x}{
-An \eqn{n \ times D} matrix with compositional data. Zero values are allowed.
+An \eqn{n \times D} matrix with compositional data. Zero values are allowed.
 }
 \item{k}{
 The number of lower dimensions. It must be less than the dimensionality of the data, at most \eqn{D-1}.

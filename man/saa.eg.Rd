@@ -14,7 +14,7 @@ saa.eg(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 10000, tol = 
 
 \arguments{
 \item{x}{
-An \eqn{n \ times D} matrix with compositional data. Zero values are allowed.
+An \eqn{n \times D} matrix with compositional data. Zero values are allowed.
 }
 \item{k}{
 The number of lower dimensions. It must be less than the dimensionality of the data, at most \eqn{D-1}.

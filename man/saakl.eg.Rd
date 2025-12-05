@@ -15,7 +15,7 @@ tol = 1e-6, clip_exp = 50)
 
 \arguments{
 \item{x}{
-An \eqn{n \ times D} matrix with compositional data. Zero values are allowed.
+An \eqn{n \times D} matrix with compositional data. Zero values are allowed.
 }
 \item{k}{
 The number of lower dimensions. It must be less than the dimensionality of the data, at most \eqn{D-1}.
