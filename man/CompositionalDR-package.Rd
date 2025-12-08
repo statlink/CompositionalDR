@@ -14,7 +14,7 @@ Dimensionality Reduction with Compositional Data. Dirichlet component analysis a
 Package: \tab CompositionalDR\cr
 Type: \tab Package\cr
 Version: \tab 1.0 \cr
-Date: \tab 2025-12-04\cr
+Date: \tab 2025-12-08\cr
 License: \tab GPL-2\cr
 }
 }
