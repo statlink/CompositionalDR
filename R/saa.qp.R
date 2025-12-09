@@ -55,7 +55,7 @@ saa.qp <- function(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge =
 
   runtime <- proc.time() - runtime
 
-  list(W = W, H = H, Z = W %*% H, obj = error[it], iters = it, runtime = runtime)
+  list(W = abs(W), H = abs(H), Z = W %*% H, obj = error[it], iters = it, runtime = runtime)
 }
 
 
