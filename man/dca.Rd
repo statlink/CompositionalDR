@@ -46,6 +46,9 @@ The estimate of the common parameter \eqn{\alpha} of the Dirichlet distribution.
 \item{iters}{
 The number of iterations performed.
 }
+\item{runtime}{
+The runtime required by the algorithm.
+}
 }
 
 \references{

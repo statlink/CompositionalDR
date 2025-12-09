@@ -1,6 +1,7 @@
 # Dirichlet Component Analysis (DCA)
 # Based on Wang et al. (2008)
 dca <- function(x, k, maxiter = 1000, pop_size = 50) {
+  runtime <- proc.time()
   M <- dim(x)[1]  ;  N <- dim(x)[2]
   # Initialize population of balanced rearrangement matrices
   population <- list()
@@ -62,7 +63,8 @@ dca <- function(x, k, maxiter = 1000, pop_size = 50) {
   R <- t( best_R )
   W <- x %*% R
   W <- .regularize_data(W)
-  list(W = W, R = R, alpha = best_alpha, iters = iter )
+  runtime <- proc.time() - runtime
+  list(W = W, R = R, alpha = best_alpha, iters = iter, runtime = runtime)
 }
 
 
