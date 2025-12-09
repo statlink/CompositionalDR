@@ -9,7 +9,9 @@ saa.eg <- function(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 1
   if ( is.null(W) ) {
     W <- matrix( Rfast2::Runif(n * k), nrow = n, ncol = k)
     W <- W / Rfast::rowsums(W)
-  } else if ( W == "dca" )  W <- CompositionalDR::dca(x, k = k)$W
+  } else {
+    if ( W == "dca" )  W <- CompositionalDR::dca(x, k = k)$W 
+  } else  W <- W 
   if ( is.null(H) ) {
     H <- matrix( Rfast2::Runif(k * D), nrow = k, ncol = D)
     H <- H / Rfast::rowsums(H)  ## FIX: rows sum to 1, not columns
