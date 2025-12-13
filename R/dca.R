@@ -94,10 +94,7 @@ dca <- function(x, k, maxiter = 1000, pop_size = 50) {
 
 # Function to apply regularization operator
 .regularize_data <- function(X) {
-  # X: M x N matrix of compositional data
-  # Returns regularized data
   delta <- min(X)
-  if ( delta >= 0 )  return(X)  # No regularization needed
   X_reg <- X - delta
   # Radial projection back to simplex
   X_reg <- X_reg / Rfast::rowsums(X_reg)
