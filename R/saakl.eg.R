@@ -1,4 +1,4 @@
-saakl.eg <- function(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-6, clip_exp = 50) {
+saakl.eg <- function(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-6, clip_exp = 20) {
 
   runtime <- proc.time()
   n <- dim(x)[1]  ;  D <- dim(x)[2]
@@ -12,7 +12,6 @@ saakl.eg <- function(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter =
     H <- H / Rfast::rowsums(H)  ## FIX: rows sum to 1, not columns
   } 
   prev_obj <- Inf
-  mat <- matrix(1, n, D)
 
   for ( iter in 1:maxiter ) {
     Z <- W %*% H              # model
@@ -21,11 +20,11 @@ saakl.eg <- function(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter =
     grad_w <- tcrossprod(- R, H)
     grad_h <- crossprod(W, - R)
     # ---- Exponentiated-gradient updates ----
-    expo_w <- -lr_w * grad_w
+    expo_w <-  -lr_w * grad_w
     expo_w <- pmax( pmin(expo_w, clip_exp), -clip_exp )
     W <- W * exp(expo_w)
     W <- W / Rfast::rowsums(W)
-    expo_h <- -lr_h * grad_h
+    expo_h <-  -lr_h * grad_h
     expo_h <- pmax(pmin(expo_h, clip_exp), -clip_exp)
     H <- H * exp(expo_h)
     H <- H / Rfast::rowsums(H)  ## FIX: rows sum to 1, not columns
