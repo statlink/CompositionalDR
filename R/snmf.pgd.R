@@ -1,4 +1,4 @@
-saa.pgd <- function(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge = 1e-12) {
+snmf.pgd <- function(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge = 1e-12) {
 
   runtime <- proc.time()
   n <- dim(x)[1]  ;  D <- dim(x)[2]

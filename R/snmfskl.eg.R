@@ -1,4 +1,4 @@
-saaskl.eg <- function(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-6, clip_exp = 50) {
+snmfskl.eg <- function(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 1000, tol = 1e-6, clip_exp = 50) {
   
   runtime <- proc.time()
   n <- dim(x)[1]  ;  D <- dim(x)[2]

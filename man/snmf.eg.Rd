@@ -1,15 +1,15 @@
-\name{saa.pgd}
-\alias{saa.pgd}
+\name{snmf.eg}
+\alias{snmf.eg}
 \title{
 Simplicial archetypal analysis minimizing the Frobenius norm
 }
 
 \description{
-Simplicial archetypal analysis minimizing the Frobenius norm using projected gradient descent.
+Simplicial archetypal analysis minimizing the Frobenius norm.
 }
 
 \usage{
-saa.pgd(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge = 1e-12)
+snmf.eg(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 10000, tol = 1e-6)
 }
 
 \arguments{
@@ -25,19 +25,23 @@ If you have an initial estimate for W supply it here. Alternatively, if you spec
 \item{H}{
 If you have an initial estimate for H supply it here, otherwise leave it NULL.
 }
+\item{lr_w}{
+The learning rate to multiply the gradient for the \eqn{W} matrix.
+}
+\item{lr_h}{
+The learning rate to multiply the gradient for the \eqn{H} matrix.
+}
 \item{maxiter}{
 The maximum number of iterations allowed.
 }
 \item{tol}{
 The tolerance value to terminate the exponentiated gradient descent algorithm.
 }
-\item{ridge}{
-This is a tiny quantity added in the denominator when computing the learning rate of the projected gradient descent.
-}
 }
 
 \details{
-Simplicial archetypal analysis using projected gradient descent is performed. The typical archetypal analysis with simplicial constraints on the matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the square of the Frobenius norm.
+Simplicial archetypal analysis is performed. The typical archetypal analysis with simplicial constraints on the
+matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the square of the Frobenius norm.
 }
 
 \value{
@@ -85,7 +89,7 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 \examples{
 x <- as.matrix(iris[, 1:4])
 x <- x / rowSums(x)
-mod <- saa.pgd(x, 3, maxit = 100)
+mod <- snmf.eg(x, 3)
 group <- as.numeric(iris[, 5])
 ternary(mod$W, colour = group)
 }

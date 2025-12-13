@@ -1,15 +1,15 @@
-\name{saa.md}
-\alias{saa.md}
+\name{snmf.qp}
+\alias{snmf.qp}
 \title{
 Simplicial archetypal analysis minimizing the Frobenius norm
 }
 
 \description{
-Simplicial archetypal analysis minimizing the Frobenius norm using mirror descent.
+Simplicial archetypal analysis minimizing the Frobenius norm using quadratic programming.
 }
 
 \usage{
-saa.md(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, alpha_factor = 1.0)
+snmf.qp(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge = 1e-8)
 }
 
 \arguments{
@@ -31,13 +31,13 @@ The maximum number of iterations allowed.
 \item{tol}{
 The tolerance value to terminate the exponentiated gradient descent algorithm.
 }
-\item{alpha_factor}{
-This is the learning rate of the mirror descent algortihm.
+\item{ridge}{
+A small quantity added in the diagonal of the \eqn{D} matrix.
 }
 }
 
 \details{
-Simplicial archetypal analysis using mirror descent is performed. The typical archetypal analysis with simplicial constraints on the matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the square of the Frobenius norm.
+Simplicial archetypal analysis using quadratic programming is performed. The typical archetypal analysis with simplicial constraints on the matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the square of the Frobenius norm.
 }
 
 \value{
@@ -85,7 +85,7 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 \examples{
 x <- as.matrix(iris[, 1:4])
 x <- x / rowSums(x)
-mod <- saa.md(x, 3)
+mod <- snmf.qp(x, 3)
 group <- as.numeric(iris[, 5])
 ternary(mod$W, colour = group)
 }

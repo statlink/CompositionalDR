@@ -1,5 +1,5 @@
-\name{saaskl.eg}
-\alias{saaskl.eg}
+\name{snmfskl.eg}
+\alias{snmfskl.eg}
 \title{
 Simplicial archetypal analysis minimizing the symmetrised Kullback-Leibler divergence
 }
@@ -9,7 +9,7 @@ Simplicial archetypal analysis minimizing the symmetrised Kullback-Leibler diver
 }
 
 \usage{
-saaskl.eg(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 1000,
+snmfskl.eg(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 1000,
 tol = 1e-6, clip_exp = 50)
 }
 
@@ -86,14 +86,14 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 %}
 
 \seealso{
-\code{ \link{saakl.eg}, \link{saa.eg}, \link{dca}, link{ternary}
+\code{ \link{snmfkl.eg}, \link{snmf.eg}, \link{dca}, link{ternary}
 }
 }
 
 \examples{
 x <- as.matrix(iris[, 1:4])
 x <- x / rowSums(x)
-mod <- saaskl.eg(x, 3)
+mod <- snmfskl.eg(x, 3)
 group <- as.numeric(iris[, 5])
 ternary(mod$W, colour = group)
 }

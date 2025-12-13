@@ -1,4 +1,4 @@
-saa.qp <- function(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge = 1e-8) {
+snmf.qp <- function(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge = 1e-8) {
 
   runtime <- proc.time()
   n <- dim(x)[1]  ;  D <- dim(x)[2]
@@ -60,7 +60,7 @@ saa.qp <- function(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge =
 
 
 
-# saa.qp_old <- function(x, k, maxiter = 10000, tol = 1e-6, ridge = 1e-6) {
+# snmf.qp_old <- function(x, k, maxiter = 10000, tol = 1e-6, ridge = 1e-6) {
   # n <- dim(x)[1]  ;  D <- dim(x)[2]
   # # Initialize W, H on simplex
   # W <- matrix( Rfast2::Runif(n * k), nrow = n, ncol = k)

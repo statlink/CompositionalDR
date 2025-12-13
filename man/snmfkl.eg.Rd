@@ -1,15 +1,16 @@
-\name{saa.eg}
-\alias{saa.eg}
+\name{snmfkl.eg}
+\alias{snmfkl.eg}
 \title{
-Simplicial archetypal analysis minimizing the Frobenius norm
+Simplicial archetypal analysis minimizing the Kullback-Leibler divergence
 }
 
 \description{
-Simplicial archetypal analysis minimizing the Frobenius norm.
+Simplicial archetypal analysis minimizing the Kullback-Leibler divergence.
 }
 
 \usage{
-saa.eg(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 10000, tol = 1e-6)
+snmfkl.eg(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 1000,
+tol = 1e-6, clip_exp = 50)
 }
 
 \arguments{
@@ -37,11 +38,14 @@ The maximum number of iterations allowed.
 \item{tol}{
 The tolerance value to terminate the exponentiated gradient descent algorithm.
 }
+\item{clip_exp}{
+A value to clip the gradient in case it becomes too large.
+}
 }
 
 \details{
 Simplicial archetypal analysis is performed. The typical archetypal analysis with simplicial constraints on the
-matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the square of the Frobenius norm.
+matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the Kullback-Leibler divergence, \eqn{KL(x||WH)}.
 }
 
 \value{
@@ -55,7 +59,7 @@ The \eqn{H} matrix, an \eqn{k \times D} matrix. Each row of this matrix is a com
 The reconstructed data, \eqn{Z = WH}.
 }
 \item{obj}{
-The reconstruction error, \eqn{ ||x - Z||_F^2}.
+The Kullback-Leibler divergence \eqn{ KL(x||WH) }.
 }
 \item{iters}{
 The number of iterations performed.
@@ -82,14 +86,14 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 %}
 
 \seealso{
-\code{\link{dca}, link{ternary}
+\code{ \link{snmfskl.eg}, \link{snmf.eg}, \link{dca}, link{ternary}
 }
 }
 
 \examples{
 x <- as.matrix(iris[, 1:4])
 x <- x / rowSums(x)
-mod <- saa.eg(x, 3)
+mod <- snmfkl.eg(x, 3)
 group <- as.numeric(iris[, 5])
 ternary(mod$W, colour = group)
 }

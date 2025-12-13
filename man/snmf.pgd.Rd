@@ -1,15 +1,15 @@
-\name{saa.qp}
-\alias{saa.qp}
+\name{snmf.pgd}
+\alias{snmf.pgd}
 \title{
 Simplicial archetypal analysis minimizing the Frobenius norm
 }
 
 \description{
-Simplicial archetypal analysis minimizing the Frobenius norm using quadratic programming.
+Simplicial archetypal analysis minimizing the Frobenius norm using projected gradient descent.
 }
 
 \usage{
-saa.qp(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge = 1e-8)
+snmf.pgd(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, ridge = 1e-12)
 }
 
 \arguments{
@@ -32,12 +32,12 @@ The maximum number of iterations allowed.
 The tolerance value to terminate the exponentiated gradient descent algorithm.
 }
 \item{ridge}{
-A small quantity added in the diagonal of the \eqn{D} matrix.
+This is a tiny quantity added in the denominator when computing the learning rate of the projected gradient descent.
 }
 }
 
 \details{
-Simplicial archetypal analysis using quadratic programming is performed. The typical archetypal analysis with simplicial constraints on the matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the square of the Frobenius norm.
+Simplicial archetypal analysis using projected gradient descent is performed. The typical archetypal analysis with simplicial constraints on the matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the square of the Frobenius norm.
 }
 
 \value{
@@ -85,7 +85,7 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 \examples{
 x <- as.matrix(iris[, 1:4])
 x <- x / rowSums(x)
-mod <- saa.qp(x, 3)
+mod <- snmf.pgd(x, 3, maxit = 100)
 group <- as.numeric(iris[, 5])
 ternary(mod$W, colour = group)
 }

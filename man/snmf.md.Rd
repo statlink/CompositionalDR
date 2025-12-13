@@ -1,16 +1,15 @@
-\name{saakl.eg}
-\alias{saakl.eg}
+\name{snmf.md}
+\alias{snmf.md}
 \title{
-Simplicial archetypal analysis minimizing the Kullback-Leibler divergence
+Simplicial archetypal analysis minimizing the Frobenius norm
 }
 
 \description{
-Simplicial archetypal analysis minimizing the Kullback-Leibler divergence.
+Simplicial archetypal analysis minimizing the Frobenius norm using mirror descent.
 }
 
 \usage{
-saakl.eg(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 1000,
-tol = 1e-6, clip_exp = 50)
+snmf.md(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, alpha_factor = 1.0)
 }
 
 \arguments{
@@ -26,26 +25,19 @@ If you have an initial estimate for W supply it here. Alternatively, if you spec
 \item{H}{
 If you have an initial estimate for H supply it here, otherwise leave it NULL.
 }
-\item{lr_w}{
-The learning rate to multiply the gradient for the \eqn{W} matrix.
-}
-\item{lr_h}{
-The learning rate to multiply the gradient for the \eqn{H} matrix.
-}
 \item{maxiter}{
 The maximum number of iterations allowed.
 }
 \item{tol}{
 The tolerance value to terminate the exponentiated gradient descent algorithm.
 }
-\item{clip_exp}{
-A value to clip the gradient in case it becomes too large.
+\item{alpha_factor}{
+This is the learning rate of the mirror descent algortihm.
 }
 }
 
 \details{
-Simplicial archetypal analysis is performed. The typical archetypal analysis with simplicial constraints on the
-matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the Kullback-Leibler divergence, \eqn{KL(x||WH)}.
+Simplicial archetypal analysis using mirror descent is performed. The typical archetypal analysis with simplicial constraints on the matrices \eqn{W} and \eqn{H}. The objective function to be minimized is the square of the Frobenius norm.
 }
 
 \value{
@@ -59,7 +51,7 @@ The \eqn{H} matrix, an \eqn{k \times D} matrix. Each row of this matrix is a com
 The reconstructed data, \eqn{Z = WH}.
 }
 \item{obj}{
-The Kullback-Leibler divergence \eqn{ KL(x||WH) }.
+The reconstruction error, \eqn{ ||x - Z||_F^2}.
 }
 \item{iters}{
 The number of iterations performed.
@@ -86,14 +78,14 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 %}
 
 \seealso{
-\code{ \link{saaskl.eg}, \link{saa.eg}, \link{dca}, link{ternary}
+\code{\link{dca}, link{ternary}
 }
 }
 
 \examples{
 x <- as.matrix(iris[, 1:4])
 x <- x / rowSums(x)
-mod <- saakl.eg(x, 3)
+mod <- snmf.md(x, 3)
 group <- as.numeric(iris[, 5])
 ternary(mod$W, colour = group)
 }

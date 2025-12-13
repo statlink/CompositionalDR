@@ -1,4 +1,4 @@
-saa.md <- function(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, alpha_factor = 1.0) {
+snmf.md <- function(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-6, alpha_factor = 1.0) {
 
   runtime <- proc.time()
   n <- dim(x)[1]  ;  D <- dim(x)[2]
