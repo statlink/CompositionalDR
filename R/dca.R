@@ -95,7 +95,7 @@ dca <- function(x, k, maxiter = 1000, pop_size = 50) {
 # Function to apply regularization operator
 .regularize_data <- function(X) {
   delta <- min(X)
-  X_reg <- X - delta
+  X_reg <- X - delta + 1e-8
   # Radial projection back to simplex
   X_reg <- X_reg / Rfast::rowsums(X_reg)
   return(X_reg)
