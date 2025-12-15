@@ -9,7 +9,7 @@ Dirichlet component analysis.
 }
 
 \usage{
-dca(x, k, maxiter = 1000, pop_size = 50, tol = 1e-4)
+dca(x, k, maxiter = 1000, pop_size = 50)
 }
 
 \arguments{
