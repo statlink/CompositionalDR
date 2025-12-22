@@ -37,10 +37,10 @@ snmf.qp <- function(x, k, W = NULL, H = NULL, init = "kmeans", maxiter = 1000, t
   for ( it in 1:maxiter ) {
     # ----------------- W update -----------------
     G_W <- 2 * tcrossprod(H) + ridgek
+    g_W <- 2 * tcrossprod(H, x)
     for (i in 1:n) {
-      g_W <- 2 * (H %*% x[i, ])
-      sol <- quadprog::solve.QP(Dmat = G_W, dvec = g_W, Amat = A_W, bvec = b_W, meq = 1)
-      W[i, ] <- sol$solution
+      sol <- quadprog::solve.QP(Dmat = G_W, dvec = g_W[, i], Amat = A_W, bvec = b_W, meq = 1)
+      W[i, ] <- abs(sol$solution)
     }
     # ----------------- H update -----------------
     #H <- Compositional::scls(x, W)$be
