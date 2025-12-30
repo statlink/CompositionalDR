@@ -47,8 +47,7 @@ snmf.qp <- function(x, k, W = NULL, H = NULL, init = "kmeans", maxiter = 1000, t
     dvec <- as.vector( crossprod(W, x) )
     xx <- crossprod(W)
     for ( i in 1:D )  XX[ ind[i, ], ind[i, ] ] <- xx
-    f <- try( quadprog::solve.QP( Dmat = XX, dvec = dvec, Amat = A, bvec = bvec,
-                                meq = k ), silent = TRUE )
+    f <- try( quadprog::solve.QP( Dmat = XX, dvec = dvec, Amat = A, bvec = bvec, meq = k ), silent = TRUE )
     if ( identical(class(f), "try-error") ) {
       f <- quadprog::solve.QP( Dmat = Matrix::nearPD(XX)$mat, dvec = dvec, Amat = A, bvec = bvec, meq = k )
     }
