@@ -6,7 +6,7 @@ Dimensionality Reduction with Compositional Data
 }
 
 \description{
-Simplicial nonegative matrix factorization (SNMF) using many algorithms is implemented.
+Simplicial nonnegative matrix factorization (SNMF) using many algorithms is implemented.
 }
 
 \details{

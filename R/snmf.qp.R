@@ -151,7 +151,6 @@ snmf.qp <- function(x, k, W = NULL, H = NULL, k_means = TRUE, veo = FALSE, lr_h 
 
 
 
-
 # snmf.qp_old <- function(x, k, maxiter = 10000, tol = 1e-6, ridge = 1e-6) {
   # n <- dim(x)[1]  ;  D <- dim(x)[2]
   # # Initialize W, H on simplex
