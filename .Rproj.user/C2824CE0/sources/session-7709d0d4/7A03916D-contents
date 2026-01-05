@@ -1,15 +1,15 @@
-\name{snmf.eg}
-\alias{snmf.eg}
+\name{snmf.sqp}
+\alias{snmf.sqp}
 \title{
 Simplicial NMF minimizing the Frobenius norm
 }
 
 \description{
-Simplicial NMF minimizing the Frobenius norm using exponentiated gradient descent.
+Simplicial NMF minimizing the Frobenius norm using quadratic programming.
 }
 
 \usage{
-snmf.eg(x, k, W = NULL, H = NULL, lr_w = 0.1, lr_h = 0.1, maxiter = 10000, tol = 1e-6)
+snmf.sqp(x, k, W = NULL, H = NULL, maxiter = 1000, tol = 1e-4, ridge = 1e-8, ncores = 1)
 }
 
 \arguments{
@@ -25,17 +25,29 @@ If you have an initial estimate for W supply it here. Otherwise leave it NULL.
 \item{H}{
 If you have an initial estimate for H supply it here, otherwise leave it NULL.
 }
-\item{lr_w}{
-The learning rate to multiply the gradient for the \eqn{W} matrix.
+\item{k_means}{
+If this is TRUE, then the K-means algorithm is used to initiate the W and H matrices.
+}
+\item{veo}{
+If the number of variables excceeds the number of observations set this is equal to TRUE.
 }
 \item{lr_h}{
-The learning rate to multiply the gradient for the \eqn{H} matrix.
+If veo is TRUE, then the exponentiated gradient method is used to update the H matrix. In this case you need to supply the value of the learning rate, which is 0.1 by default.
 }
 \item{maxiter}{
 The maximum number of iterations allowed.
 }
 \item{tol}{
-The tolerance value to terminate the exponentiated gradient descent algorithm.
+The tolerance value to terminate the quadratic programming algorithm.
+}
+\item{ridge}{
+A small quantity added in the diagonal of the \eqn{D} matrix.
+}
+\item{history}{
+If this is TRUE, the reconstruction error at each iteration is returned.
+}
+\item{ncores}{
+Do you want the update of W to be performed in parallel? If yes, specify the number of cores to use.
 }
 }
 
@@ -55,6 +67,9 @@ The reconstructed data, \eqn{Z = WH}.
 }
 \item{obj}{
 The reconstruction error, \eqn{ ||x - Z||_F^2}.
+}
+\item{error}{
+If the argument history was set to TRUE the reconstruction error at each iteration will be performed, otherwise this is NULL.
 }
 \item{iters}{
 The number of iterations performed.
@@ -81,14 +96,14 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 %}
 
 \seealso{
-\code{link{ternary}
+\code{ \link{snmf.sqp}, link{ternary}, \link{pyramid}
 }
 }
 
 \examples{
 x <- as.matrix(iris[, 1:4])
 x <- x / rowSums(x)
-mod <- snmf.eg(x, 3)
+mod <- snmf.qp(x, 3)
 group <- as.numeric(iris[, 5])
 ternary(mod$W, colour = group)
 }
