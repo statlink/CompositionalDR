@@ -85,7 +85,7 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 %}
 
 \seealso{
-\code{ \link{snmfkl.eg}, \link{snmf.eg}, \link{dca}, link{ternary}
+\code{ \link{snmfkl.eg}, \link{snmf.eg}, link{ternary}
 }
 }
 

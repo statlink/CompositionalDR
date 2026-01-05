@@ -82,7 +82,7 @@ R implementation and documentation: Michail Tsagris \email{mtsagris@uoc.gr}.
 %}
 
 \seealso{
-\code{\link{dca}, link{ternary}
+\code{ link{ternary}
 }
 }
 
