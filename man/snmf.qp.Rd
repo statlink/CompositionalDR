@@ -30,7 +30,8 @@ If you have an initial estimate for H supply it here, otherwise leave it NULL.
 If this is TRUE, then the K-means algorithm is used to initiate the W and H matrices.
 }
 \item{veo}{
-If the number of variables excceeds the number of observations set this is equal to TRUE.
+If the number of variables excceeds the number of observations set this is equal to TRUE. 
+In this case, the sparse k-means algorithm of Witten and Tibshirani (2010) is used to initialize the H matrix.
 }
 \item{lr_h}{
 If veo is TRUE, then the exponentiated gradient descent method is used to update the H matrix. In this case you need to supply the value of the learning rate, which is 0.1 by default.
@@ -82,6 +83,9 @@ The runtime required by the algorithm.
 
 \references{
 Alenazi A. and Tsagris M. (2026). Simplicial nonnegative matrix factorization. In preparation.
+
+Witten D. M. and Tibshirani R. (2010). A framework for feature selection in clustering. 
+Journal of the American Statistical Association, 105(490): 713--726.
 
 Cutler A. and Breiman L. (1994). Archetypal analysis. Technometrics, 36(4): 338--347.
 }
