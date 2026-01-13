@@ -6,10 +6,9 @@
 }
 
 snmf.sqp <- function(x, k, W = NULL, H = NULL, maxiter = 1000,
-                     tol = 1e-4, ridge = 1e-8,history = FALSE, ncores = 1) {
+                     tol = 1e-4, ridge = 1e-8, history = FALSE, ncores = 1) {
   runtime <- proc.time()
-  n <- dim(x)[1]
-  D <- dim(x)[2]
+  n <- dim(x)[1]  ;  D <- dim(x)[2]
 
   # Initialize W, H on simplex
   W <- matrix( Rfast2::Runif(n * k), nrow = n, ncol = k)
